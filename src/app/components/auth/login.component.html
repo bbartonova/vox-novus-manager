@@ -1,0 +1,45 @@
+<!-- login.component.html -->
+<div class="auth-container">
+  <div class="auth-box">
+    <img src="assets/logo.png" alt="Sborové logo" class="logo" />
+    <h2>Vítejte zpět!</h2>
+    <p class="auth-text">
+      Zadejte prosím své přihlašovací údaje do členské sekce sboru.
+    </p>
+
+    <!-- ✅ Chybová / informační hláška -->
+    <div *ngIf="message" class="alert" [ngClass]="messageType">
+      {{ message }}
+      <span class="close-btn" (click)="message = ''">&times;</span>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+      <label for="email">E-mail:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <label for="password">Heslo:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit" class="auth-btn">Přihlásit se</button>
+    </form>
+
+    <div class="auth-links">
+      <a routerLink="/forgot-password">Zapomněli jste heslo?</a>
+      <p>
+        Zatím účet nemáte? <a routerLink="/register">Nejprve si ho založte.</a>
+      </p>
+    </div>
+  </div>
+</div>

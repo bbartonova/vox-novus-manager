@@ -1,0 +1,52 @@
+<!-- register.component.html -->
+<div class="auth-container">
+  <div class="auth-box">
+    <img src="assets/logo.png" alt="Sborové logo" class="logo" />
+    <h2>Registrace</h2>
+    <p class="auth-text">Vyplňte své údaje pro vytvoření účtu.</p>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister()">
+      <label for="email">E-mail:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <label for="username">Uživatelské jméno:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+
+      <label for="password">Heslo:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <label for="role">Role:</label>
+      <select id="role" [(ngModel)]="role" name="role" required>
+        <option value="sopran1">Soprán 1</option>
+        <option value="sopran2">Soprán 2</option>
+        <option value="alt1">Alt 1</option>
+        <option value="alt2">Alt 2</option>
+        <option value="sbormistr">Sbormistr</option>
+      </select>
+
+      <button type="submit" class="auth-btn">Registrovat se</button>
+    </form>
+
+    <div class="auth-links">
+      <a routerLink="/login">Již máte účet? Přihlaste se.</a>
+    </div>
+  </div>
+</div>
