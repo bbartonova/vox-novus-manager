@@ -1,15 +1,14 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "angular.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/vox-novus"
-      }
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
     }
-  ]
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "routes": [{ "src": "/.*", "dest": "/index.html" }]
 }
