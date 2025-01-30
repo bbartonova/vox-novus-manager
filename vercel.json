@@ -1,14 +1,13 @@
 {
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/vox-novus"
+      }
     }
   ],
-  "routes": [{ "src": "/.*", "dest": "/index.html" }]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
