@@ -20,3 +20,10 @@ const firebaseConfig = {
 
 // Inicializace Firebase
 const app = initializeApp(firebaseConfig);
+
+//zachytit globální chyby a zablokovat je
+window.addEventListener('error', function (event) {
+  if (event.message.includes('Firebase')) {
+    event.preventDefault();
+  }
+});
