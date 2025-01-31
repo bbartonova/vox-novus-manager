@@ -17,7 +17,8 @@
   text-align: center;
   width: 100%;
   max-width: 380px; /* ✅ Lehce zvětšeno pro lepší vizuál */
-  margin: auto; /* ✅ Zarovnání na střed */
+  margin-top: 40px; /* Odsazení od horní části */
+  margin-bottom: 0;
 }
 
 .logo {
