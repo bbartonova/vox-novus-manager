@@ -19,23 +19,19 @@ export class AuthService {
         password
       );
       console.log('Přihlášený uživatel:', userCredential.user);
-      alert('Přihlášení úspěšné!');
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+    } catch (error: any) {
       console.error('Chyba při přihlášení:', error);
-      alert('Chyba: ' + errorMessage);
+      throw error; // ❌ NEvoláme alert(), ale vrátíme chybu do komponenty
     }
   }
 
-  // ✅ Obnovení hesla
+  // ✅ Obnovení hesla (bez alertu!)
   async resetPassword(email: string): Promise<void> {
     try {
       await this.afAuth.sendPasswordResetEmail(email);
-      alert('E-mail pro obnovení hesla byl odeslán.');
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+    } catch (error: any) {
       console.error('Chyba při obnovení hesla:', error);
-      alert('Chyba: ' + errorMessage);
+      throw error; // ❌ Vracíme chybu do komponenty, aby ji zobrazila po svém
     }
   }
 
@@ -44,15 +40,13 @@ export class AuthService {
     try {
       await this.afAuth.signOut();
       console.log('Uživatel odhlášen');
-      alert('Byl jste úspěšně odhlášen.');
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+    } catch (error: any) {
       console.error('Chyba při odhlášení:', error);
-      alert('Chyba: ' + errorMessage);
+      throw error;
     }
   }
 
-  // ✅ Registrace uživatele a uložení do Firestore
+  // ✅ Registrace uživatele + uložení do Firestore (bez alertu)
   async register(
     email: string,
     password: string,
@@ -77,11 +71,9 @@ export class AuthService {
       } else {
         throw new Error('Uživatel nebyl vytvořen.');
       }
-      alert('Registrace úspěšná!');
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+    } catch (error: any) {
       console.error('Chyba při registraci:', error);
-      alert('Chyba: ' + errorMessage);
+      throw error;
     }
   }
 }
