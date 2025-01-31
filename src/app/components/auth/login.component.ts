@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router'; // Importujte Router
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginComponent {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {} // Vstřikujeme Router
 
   async onLogin() {
     if (!this.email.trim() || !this.password.trim()) {
@@ -23,6 +24,9 @@ export class LoginComponent {
     try {
       await this.authService.login(this.email, this.password);
       this.showMessage('Přihlášení úspěšné.', 'success');
+
+      // Po úspěšném přihlášení přesměrujeme uživatele na dashboard
+      this.router.navigate(['/dashboard']); // Přesměrování na dashboard
     } catch (error: any) {
       let errorMessage = 'Chyba při přihlášení. Zkontrolujte své údaje.';
 
