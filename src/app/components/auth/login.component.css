@@ -2,11 +2,11 @@
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Zarovnání k horní části */
   height: 100vh;
   background-color: #f8f8f8;
-  padding-top: 80px; /* ✅ Větší odsazení od horní části stránky */
-  padding-bottom: 40px; /* ✅ Lepší vertikální vycentrování */
+  padding-top: 0; /* Odstranění nadbytečného odsazení */
+  padding-bottom: 40px;
 }
 
 .auth-box {

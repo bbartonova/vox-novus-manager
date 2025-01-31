@@ -1,3 +1,4 @@
+// forgot-password.component.ts
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
@@ -8,20 +9,31 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ForgotPasswordComponent {
   email: string = '';
+  message: string = '';
+  messageType: 'success' | 'error' = 'success'; // Pro určení typu hlášky
 
   constructor(private authService: AuthService) {}
 
   async onResetPassword() {
     if (!this.email.trim()) {
-      alert('Zadejte prosím e-mailovou adresu.');
+      this.showMessage('Zadejte prosím e-mailovou adresu.', 'error');
       return;
     }
 
     try {
       await this.authService.resetPassword(this.email);
-      alert('Instrukce k obnově hesla byly odeslány na váš e-mail.');
+      this.showMessage(
+        'Instrukce k obnově hesla byly odeslány na váš e-mail.',
+        'success'
+      );
     } catch (error: any) {
-      alert(error.message);
+      this.showMessage(error.message, 'error'); // Chyba z našeho vlastního handleru
     }
+  }
+
+  // Funkce pro nastavení zprávy
+  showMessage(text: string, type: 'success' | 'error') {
+    this.message = text;
+    this.messageType = type;
   }
 }
