@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, DocumentData } from '@angular/fire/compat/firestore';
+import { User } from 'firebase/auth'; // Import User typ
 
 @Injectable({
   providedIn: 'root',
@@ -12,43 +13,43 @@ export class AuthService {
   ) {}
 
   // ✅ Přihlášení uživatele
-  async login(email: string, password: string): Promise<void> {
+  async login(email: string, password: string): Promise<User | null> {
     try {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );
       console.log('Přihlášený uživatel:', userCredential.user);
-      alert('Přihlášení úspěšné!');
+      return userCredential.user; // Vrací uživatele
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       console.error('Chyba při přihlášení:', error);
-      alert('Chyba: ' + errorMessage);
+      throw new Error(errorMessage); // Vrátí chybu pro zpracování ve volající komponentě
     }
   }
 
   // ✅ Obnovení hesla
-  async resetPassword(email: string): Promise<void> {
+  async resetPassword(email: string): Promise<string> {
     try {
       await this.afAuth.sendPasswordResetEmail(email);
-      alert('E-mail pro obnovení hesla byl odeslán.');
+      return 'E-mail pro obnovení hesla byl odeslán.'; // Vrací textovou zprávu
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       console.error('Chyba při obnovení hesla:', error);
-      alert('Chyba: ' + errorMessage);
+      throw new Error(errorMessage); // Vrátí chybu pro zpracování ve volající komponentě
     }
   }
 
   // ✅ Odhlášení uživatele
-  async logout(): Promise<void> {
+  async logout(): Promise<string> {
     try {
       await this.afAuth.signOut();
       console.log('Uživatel odhlášen');
-      alert('Byl jste úspěšně odhlášen.');
+      return 'Byl jste úspěšně odhlášen.'; // Vrací textovou zprávu
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       console.error('Chyba při odhlášení:', error);
-      alert('Chyba: ' + errorMessage);
+      throw new Error(errorMessage); // Vrátí chybu pro zpracování ve volající komponentě
     }
   }
 
@@ -57,7 +58,7 @@ export class AuthService {
     email: string,
     password: string,
     username: string
-  ): Promise<void> {
+  ): Promise<string> {
     try {
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(
         email,
@@ -77,11 +78,11 @@ export class AuthService {
       } else {
         throw new Error('Uživatel nebyl vytvořen.');
       }
-      alert('Registrace úspěšná!');
+      return 'Registrace úspěšná!'; // Vrací textovou zprávu
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       console.error('Chyba při registraci:', error);
-      alert('Chyba: ' + errorMessage);
+      throw new Error(errorMessage); // Vrátí chybu pro zpracování ve volající komponentě
     }
   }
 

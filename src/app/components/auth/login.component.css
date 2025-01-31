@@ -1,4 +1,5 @@
-<!-- login.component.css -- > .auth-container {
+/* login.component.css */
+.auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,8 +82,36 @@
   text-decoration: underline;
 }
 
+/* === Hláška === */
+.alert {
+  background-color: #e74c3c; /* Červené pozadí */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  position: relative;
+  font-size: 16px;
+  text-align: center;
+  max-width: 100%;
+}
+
+.alert.success {
+  background-color: #2ecc71; /* Zelené pozadí pro úspěšné zprávy */
+}
+
+.alert .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  background: none;
+  border: none;
+}
+
+/* ✅ Responsivita */
 @media (max-width: 600px) {
-  /* ✅ Přidána responsivita */
   .auth-box {
     width: 95%;
     padding: 25px;
