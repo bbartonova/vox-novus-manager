@@ -8,41 +8,20 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ForgotPasswordComponent {
   email: string = '';
-  alertMessage: string = '';
-  alertType: 'success' | 'error' = 'success';
-  showAlert: boolean = false;
 
   constructor(private authService: AuthService) {}
 
   async onResetPassword() {
     if (!this.email.trim()) {
-      this.showAlertMessage('Zadejte prosím e-mailovou adresu.', 'error');
+      alert('Zadejte prosím e-mailovou adresu.');
       return;
     }
 
-    const errorMessage = await this.authService.resetPassword(this.email);
-
-    if (errorMessage) {
-      this.showAlertMessage(errorMessage, 'error'); // Zobrazení chyby
-    } else {
-      this.showAlertMessage(
-        'Instrukce k obnově hesla byly odeslány na váš e-mail.',
-        'success'
-      );
+    try {
+      await this.authService.resetPassword(this.email);
+      alert('Instrukce k obnově hesla byly odeslány na váš e-mail.');
+    } catch (error: any) {
+      alert(error.message);
     }
-  }
-
-  showAlertMessage(message: string, type: 'success' | 'error') {
-    this.alertMessage = message;
-    this.alertType = type;
-    this.showAlert = true;
-
-    setTimeout(() => {
-      this.showAlert = false;
-    }, 5000);
-  }
-
-  closeAlert() {
-    this.showAlert = false;
   }
 }
