@@ -20,30 +20,15 @@ export class ForgotPasswordComponent {
       return;
     }
 
-    try {
-      await this.authService.resetPassword(this.email);
+    const errorMessage = await this.authService.resetPassword(this.email);
+
+    if (errorMessage) {
+      this.showAlertMessage(errorMessage, 'error'); // Zobrazení chyby
+    } else {
       this.showAlertMessage(
-        'Informace byly odeslány na Vámi uvedený registrovaný e-mail.',
+        'Instrukce k obnově hesla byly odeslány na váš e-mail.',
         'success'
       );
-    } catch (error: any) {
-      let errorMessage = 'Chyba při odesílání e-mailu.';
-
-      if (error?.code) {
-        switch (error.code) {
-          case 'auth/invalid-email':
-            errorMessage = 'E-mailová adresa je zadaná ve špatném formátu.';
-            break;
-          case 'auth/user-not-found':
-            errorMessage = 'Pro zadaný e-mail nebyl nalezen žádný účet.';
-            break;
-          default:
-            errorMessage = 'Nastala neočekávaná chyba. Zkuste to znovu.';
-        }
-      }
-
-      console.error('Firebase error:', error);
-      this.showAlertMessage(errorMessage, 'error');
     }
   }
 

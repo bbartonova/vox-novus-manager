@@ -12,46 +12,48 @@ export class AuthService {
   ) {}
 
   // ✅ Přihlášení uživatele
-  async login(email: string, password: string): Promise<void> {
+  async login(email: string, password: string): Promise<string | null> {
     try {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );
       console.log('Přihlášený uživatel:', userCredential.user);
+      return null; // Žádná chyba, úspěch
     } catch (error: any) {
       console.error('Chyba při přihlášení:', error);
-      throw error; // ❌ NEvoláme alert(), ale vrátíme chybu do komponenty
+      return this.getFirebaseErrorMessage(error.code);
     }
   }
 
-  // ✅ Obnovení hesla (bez alertu!)
-  async resetPassword(email: string): Promise<void> {
+  // ✅ Obnovení hesla
+  async resetPassword(email: string): Promise<string | null> {
     try {
       await this.afAuth.sendPasswordResetEmail(email);
+      return null; // Úspěch, žádná chyba
     } catch (error: any) {
       console.error('Chyba při obnovení hesla:', error);
-      throw error; // ❌ Vracíme chybu do komponenty, aby ji zobrazila po svém
+      return this.getFirebaseErrorMessage(error.code);
     }
   }
 
   // ✅ Odhlášení uživatele
-  async logout(): Promise<void> {
+  async logout(): Promise<string | null> {
     try {
       await this.afAuth.signOut();
-      console.log('Uživatel odhlášen');
+      return null;
     } catch (error: any) {
       console.error('Chyba při odhlášení:', error);
-      throw error;
+      return this.getFirebaseErrorMessage(error.code);
     }
   }
 
-  // ✅ Registrace uživatele + uložení do Firestore (bez alertu)
+  // ✅ Registrace uživatele a uložení do Firestore
   async register(
     email: string,
     password: string,
     username: string
-  ): Promise<void> {
+  ): Promise<string | null> {
     try {
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(
         email,
@@ -71,9 +73,28 @@ export class AuthService {
       } else {
         throw new Error('Uživatel nebyl vytvořen.');
       }
+      return null;
     } catch (error: any) {
       console.error('Chyba při registraci:', error);
-      throw error;
+      return this.getFirebaseErrorMessage(error.code);
+    }
+  }
+
+  // ✅ Převod Firebase error kódů na čitelné české zprávy
+  private getFirebaseErrorMessage(code: string): string {
+    switch (code) {
+      case 'auth/invalid-email':
+        return 'E-mailová adresa je ve špatném formátu.';
+      case 'auth/user-not-found':
+        return 'Účet s tímto e-mailem neexistuje.';
+      case 'auth/wrong-password':
+        return 'Nesprávné heslo. Zkuste to znovu.';
+      case 'auth/email-already-in-use':
+        return 'Tento e-mail už je zaregistrovaný.';
+      case 'auth/weak-password':
+        return 'Heslo je příliš slabé. Použijte alespoň 6 znaků.';
+      default:
+        return 'Nastala neočekávaná chyba. Zkuste to znovu.';
     }
   }
 }
