@@ -13,17 +13,43 @@ export class AuthService {
 
   // ✅ Přihlášení uživatele
   async login(email: string, password: string): Promise<void> {
-    await this.afAuth.signInWithEmailAndPassword(email, password);
+    try {
+      const userCredential = await this.afAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log('Přihlášený uživatel:', userCredential.user);
+      alert('Přihlášení úspěšné!');
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      console.error('Chyba při přihlášení:', error);
+      alert('Chyba: ' + errorMessage);
+    }
   }
 
   // ✅ Obnovení hesla
   async resetPassword(email: string): Promise<void> {
-    await this.afAuth.sendPasswordResetEmail(email);
+    try {
+      await this.afAuth.sendPasswordResetEmail(email);
+      alert('E-mail pro obnovení hesla byl odeslán.');
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      console.error('Chyba při obnovení hesla:', error);
+      alert('Chyba: ' + errorMessage);
+    }
   }
 
   // ✅ Odhlášení uživatele
   async logout(): Promise<void> {
-    await this.afAuth.signOut();
+    try {
+      await this.afAuth.signOut();
+      console.log('Uživatel odhlášen');
+      alert('Byl jste úspěšně odhlášen.');
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      console.error('Chyba při odhlášení:', error);
+      alert('Chyba: ' + errorMessage);
+    }
   }
 
   // ✅ Registrace uživatele a uložení do Firestore
@@ -32,20 +58,39 @@ export class AuthService {
     password: string,
     username: string
   ): Promise<void> {
-    const userCredential = await this.afAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-    const user = userCredential.user;
-    if (user) {
-      await this.firestore.collection<DocumentData>('users').doc(user.uid).set({
-        email: user.email,
-        username: username,
-        role: 'member',
-        createdAt: new Date(),
-      });
-    } else {
-      throw new Error('Uživatel nebyl vytvořen.');
+    try {
+      const userCredential = await this.afAuth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      const user = userCredential.user;
+      if (user) {
+        await this.firestore
+          .collection<DocumentData>('users')
+          .doc(user.uid)
+          .set({
+            email: user.email,
+            username: username,
+            role: 'member',
+            createdAt: new Date(),
+          });
+      } else {
+        throw new Error('Uživatel nebyl vytvořen.');
+      }
+      alert('Registrace úspěšná!');
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      console.error('Chyba při registraci:', error);
+      alert('Chyba: ' + errorMessage);
     }
+  }
+
+  // ✅ Ověření, zda je uživatel přihlášen
+  isLoggedIn(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.afAuth.authState.subscribe((user) => {
+        resolve(!!user); // Pokud existuje user, vrátí true, jinak false
+      });
+    });
   }
 }
