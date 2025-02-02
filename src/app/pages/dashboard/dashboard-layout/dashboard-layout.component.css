@@ -1,0 +1,87 @@
+/* === Hlavní menu === */
+.main-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1a1a; /* Tmavé pozadí */
+  padding: 15px 20px;
+  position: relative;
+  z-index: 100;
+  border-bottom: 1px solid #333; /* Přidání spodní tmavé linky */
+}
+
+/* === Logo v menu === */
+.logo img {
+  height: 45px;
+  max-height: 50px;
+  width: auto;
+}
+
+/* === Navigační seznam === */
+.main-menu ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  flex-grow: 1;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+}
+
+/* === Odkazy v menu === */
+.main-menu ul li {
+  display: inline;
+}
+
+.main-menu ul li a {
+  text-decoration: none;
+  color: #e5e5e5;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 15px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.main-menu ul li a:hover {
+  color: #fff;
+  border-bottom: 3px solid #e5e5e5; /* Bílý pruh pod tlačítkem při hoveru */
+}
+
+/* === RESPONSIVITA === */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  font-size: 28px;
+  color: #e5e5e5;
+  background: none;
+  border: none;
+}
+
+/* Mobilní verze */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .main-menu ul {
+    display: none;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px 0;
+  }
+
+  .main-menu ul.active {
+    display: flex;
+  }
+
+  .main-menu ul li {
+    text-align: center;
+    padding: 10px 0;
+  }
+}

@@ -1,0 +1,38 @@
+<div class="concerts-container">
+  <h1>Koncerty</h1>
+
+  <!-- Tlačítko PŘIDAT KONCERT pouze pro admina -->
+  <button *ngIf="isAdmin" (click)="onAddConcert()">PŘIDAT KONCERT</button>
+
+  <!-- Formulář pro přidání koncertu -->
+  <div *ngIf="showForm" class="add-concert-form">
+    <input
+      type="text"
+      [(ngModel)]="newConcert.nazev"
+      placeholder="Název koncertu"
+    />
+    <input type="datetime-local" [(ngModel)]="newConcert.datumCas" />
+    <input type="text" [(ngModel)]="newConcert.cyklus" placeholder="Cyklus" />
+    <input type="text" [(ngModel)]="newConcert.misto" placeholder="Místo" />
+    <textarea
+      [(ngModel)]="newConcert.informace"
+      placeholder="Informace o koncertu"
+    ></textarea>
+    <button (click)="saveConcert()">Uložit koncert</button>
+  </div>
+
+  <!-- Seznam koncertů -->
+  <div class="concert-list">
+    <div *ngFor="let concert of concerts$ | async" class="concert-item">
+      <h2>{{ concert.nazev }}</h2>
+      <p>
+        <strong>Datum a čas:</strong> {{ concert.datumCas | date : "short" }}
+      </p>
+      <p><strong>Místo:</strong> {{ concert.misto }}</p>
+      <p><strong>Informace:</strong> {{ concert.informace }}</p>
+      <button (click)="onConfirmParticipation(concert.id)">
+        Potvrdit účast
+      </button>
+    </div>
+  </div>
+</div>

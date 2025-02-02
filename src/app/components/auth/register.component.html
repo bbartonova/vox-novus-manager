@@ -1,9 +1,14 @@
-<!-- register.component.html -->
 <div class="auth-container">
   <div class="auth-box">
     <img src="assets/logo.png" alt="Sborové logo" class="logo" />
     <h2>Registrace</h2>
     <p class="auth-text">Vyplňte své údaje pro vytvoření účtu.</p>
+
+    <!-- ✅ Chybová / informační hláška -->
+    <div *ngIf="message" class="alert" [ngClass]="messageType">
+      {{ message }}
+      <span class="close-btn" (click)="message = ''">&times;</span>
+    </div>
 
     <form #registerForm="ngForm" (ngSubmit)="onRegister()">
       <label for="email">E-mail:</label>

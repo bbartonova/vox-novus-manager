@@ -5,7 +5,7 @@
   align-items: flex-start; /* Zarovnání k horní části */
   height: 100vh;
   background-color: #f8f8f8;
-  padding-top: 0; /* Odstranění nadbytečného odsazení */
+  padding-top: 0;
   padding-bottom: 40px;
 }
 
@@ -17,8 +17,41 @@
   text-align: center;
   width: 100%;
   max-width: 380px;
-  margin-top: 40px; /* Odsazení od horní části */
+  margin-top: 40px;
   margin-bottom: 0;
+  position: relative; /* Pro správné umístění alertu */
+}
+
+/* === Hlášky === */
+.alert {
+  background-color: #e74c3c; /* Červené pozadí */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  position: relative;
+  font-size: 16px;
+  text-align: center;
+  max-width: 100%;
+}
+
+.alert.success {
+  background-color: #2ecc71; /* Zelené pozadí pro úspěšné zprávy */
+}
+
+.alert.error {
+  background-color: #e74c3c; /* Červené pozadí pro chybové zprávy */
+}
+
+.alert .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  background: none;
+  border: none;
 }
 
 .logo {

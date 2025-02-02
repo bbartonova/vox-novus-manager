@@ -17,8 +17,10 @@ export class DashboardComponent {
   }
 
   onLogout() {
+    // Zavoláme logout metodu v AuthService
     this.authService.logout().then(() => {
-      this.router.navigate(['/login']); // Přesměrování na přihlášení
+      // Po úspěšném odhlášení přesměrujeme uživatele na stránku přihlášení
+      this.router.navigate(['/login']);
     });
   }
 }
